@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#101d35">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Gestión Financiera">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>Gestión Financiera 2.0</title>
+<style>
+:root{--bg:#101d35;--panel:#192b48;--panel2:#213858;--text:#f4f7fc;--muted:#a9bad2;--accent:#6da6f5;--green:#7bd6a5;--red:#ff9eaa;--line:#314765}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
+button,input,select,textarea{font:inherit}button{cursor:pointer}.app{max-width:520px;margin:auto;min-height:100dvh;padding:18px 16px 100px}
+header{display:flex;justify-content:space-between;align-items:center;margin:6px 0 22px}.brand{font-weight:800;letter-spacing:.08em;font-size:12px;color:#dce8f8}.brand span{display:block;color:var(--muted);font-weight:500;letter-spacing:0;font-size:12px;margin-top:4px}
+.iconbtn{border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:13px;width:42px;height:42px;font-size:18px}
+h1{font-size:25px;margin:0 0 5px} .sub{color:var(--muted);font-size:13px}
+.card{background:linear-gradient(145deg,#1b304f,#172944);border:1px solid #2c4262;border-radius:22px;padding:18px;margin-top:16px;box-shadow:0 10px 30px #07132655}
+.eyebrow{font-size:11px;letter-spacing:.1em;color:var(--muted);font-weight:700}.balance{font-size:34px;font-weight:800;letter-spacing:-1px;margin:8px 0 3px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}.stat{background:#213858;border-radius:15px;padding:13px}.stat small{display:block;color:var(--muted);font-size:12px}.stat strong{display:block;margin-top:7px;font-size:17px}
+.green{color:var(--green)}.red{color:var(--red)}.blue{color:#9cc4ff}
+.sectionhead{display:flex;justify-content:space-between;align-items:center;margin:25px 2px 10px}.sectionhead h2{font-size:17px;margin:0}.link{color:#9cc4ff;background:none;border:0;font-size:13px}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:15px}.action{border:0;border-radius:15px;padding:15px 10px;font-weight:700}.action.in{background:#173f38;color:#9aebc0}.action.out{background:#492c3b;color:#ffb6c0}
+.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(520px,100%);display:grid;grid-template-columns:repeat(5,1fr);background:#0b172b;border-top:1px solid #2c4262;padding:10px 5px calc(10px + env(safe-area-inset-bottom));z-index:5}
+.nav button{border:0;background:none;color:#91a6c2;font-size:10px;padding:5px 1px}.nav button b{display:block;font-size:19px;margin-bottom:3px}.nav button.active{color:#9cc4ff}
+.list{display:grid;gap:9px}.movement{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:12px;display:flex;align-items:center;gap:10px}.bubble{width:38px;height:38px;border-radius:12px;background:#284568;display:grid;place-items:center;font-size:18px;flex-shrink:0}.moveinfo{flex:1;min-width:0}.moveinfo strong{display:block;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.moveinfo small{color:var(--muted);font-size:11px}.amount{font-weight:750;font-size:14px;white-space:nowrap}.movebtn{border:0;background:none;color:#a9bad2;font-size:18px;padding:4px}
+.page{display:none}.page.active{display:block}.empty{padding:24px;text-align:center;color:var(--muted);background:var(--panel);border-radius:16px;font-size:13px}
+.modalback{display:none;position:fixed;inset:0;background:#0009;z-index:10;align-items:flex-end;justify-content:center}.modalback.show{display:flex}.modal{background:#14243c;border:1px solid #385071;border-radius:23px 23px 0 0;padding:20px 17px calc(20px + env(safe-area-inset-bottom));width:min(520px,100%);max-height:92dvh;overflow:auto}.modal h2{margin:0 0 16px;font-size:20px}
+label{display:block;color:var(--muted);font-size:12px;margin:12px 0 6px}input,select,textarea{width:100%;background:#0e1b30;color:var(--text);border:1px solid #385071;border-radius:12px;padding:12px;outline:none}input:focus,select:focus,textarea:focus{border-color:var(--accent)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.primary{width:100%;border:0;border-radius:13px;background:#3978c8;color:white;font-weight:750;padding:14px;margin-top:17px}.secondary{width:100%;border:1px solid #405879;border-radius:13px;background:transparent;color:var(--text);padding:12px;margin-top:9px}
+.photo{display:flex;align-items:center;gap:12px;border:1px dashed #55708f;border-radius:13px;padding:12px}.photo input{display:none}.preview{max-width:78px;max-height:78px;border-radius:10px;object-fit:cover;display:none}.hint{font-size:11px;color:var(--muted);line-height:1.4;margin-top:7px}
+.pill{display:inline-block;background:#263f60;color:#bcd7fb;border-radius:99px;padding:5px 9px;font-size:11px}
+.settingsrow{display:flex;justify-content:space-between;align-items:center;background:var(--panel);padding:14px;border-radius:14px;margin-top:9px}.settingsrow small{color:var(--muted);display:block;margin-top:3px}
+@media(min-width:520px){.modalback{align-items:center}.modal{border-radius:23px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header><div class="brand">GESTIÓN FINANCIERA <span>Tu economía, bajo control · 2.0</span></div><button class="iconbtn" onclick="showPage('ajustes')" aria-label="Ajustes">⚙</button></header>
+<section id="inicio" class="page active">
+<h1>Mi economía</h1><div class="sub" id="today"></div>
+<div class="card"><div class="eyebrow">DINERO DISPONIBLE</div><div class="balance" id="available">0,00 €</div><div class="sub">Cuentas bancarias + efectivo</div>
+<div class="stats"><div class="stat"><small>Ingresos del mes</small><strong class="green" id="income">+0,00 €</strong></div><div class="stat"><small>Gastos del mes</small><strong class="red" id="expenses">−0,00 €</strong></div></div></div>
+<div class="stats"><div class="stat"><small>Ahorros</small><strong id="savings">0,00 €</strong></div><div class="stat"><small>Inversiones</small><strong id="investments">0,00 €</strong></div></div>
+<div class="actions"><button class="action in" onclick="openMovement('ingreso')">＋ Añadir ingreso</button><button class="action out" onclick="openMovement('gasto')">－ Añadir gasto</button></div>
+<div class="sectionhead"><h2>Últimos movimientos</h2><button class="link" onclick="showPage('movimientos')">Ver todos</button></div><div id="recent" class="list"></div>
+</section>
+<section id="movimientos" class="page"><h1>Movimientos</h1><div class="sub">Consulta, modifica o elimina tus operaciones.</div><div class="actions"><button class="action in" onclick="openMovement('ingreso')">＋ Ingreso</button><button class="action out" onclick="openMovement('gasto')">－ Gasto</button></div><div class="sectionhead"><h2>Historial</h2><span class="pill" id="count">0 movimientos</span></div><div id="allmoves" class="list"></div></section>
+<section id="cuentas" class="page"><h1>Cuentas</h1><div class="sub">Bancos y efectivo, cada uno con su propio saldo.</div><div class="sectionhead"><h2>Tus cuentas</h2><button class="link" onclick="addAccount()">＋ Añadir</button></div><div id="accounts" class="list"></div><div class="hint">Los traspasos entre cuentas se registrarán sin contarlos como ingresos ni gastos. La gestión completa de traspasos se incorporará en una siguiente iteración.</div></section>
+<section id="analisis" class="page"><h1>Análisis</h1><div class="sub">Resumen de tu actividad financiera.</div><div class="card"><div class="eyebrow">ESTE MES</div><div class="stats"><div class="stat"><small>Ingresos</small><strong class="green" id="aincome">0,00 €</strong></div><div class="stat"><small>Gastos</small><strong class="red" id="aexpenses">0,00 €</strong></div></div></div><div class="empty" style="margin-top:14px">Los gráficos y presupuestos por categorías llegarán en la siguiente fase del prototipo.</div></section>
+<section id="ajustes" class="page"><h1>Ajustes</h1><div class="sub">Personaliza y protege tu información.</div><div class="sectionhead"><h2>Apariencia</h2></div><div class="settingsrow"><div><strong>Tema</strong><small>Azul marino premium</small></div><span class="pill">Actual</span></div><div class="settingsrow"><div><strong>Personalización avanzada</strong><small>Fondos, textos y colores</small></div><span class="pill">Próximamente</span></div><div class="sectionhead"><h2>Tus datos</h2></div><button class="secondary" onclick="backup()">Exportar copia de seguridad</button><label style="margin-top:14px">Restaurar copia JSON</label><input type="file" accept="application/json,.json" onchange="restore(event)"><div class="hint">Este prototipo guarda los datos localmente en este navegador. Exporta copias periódicamente. No introduzcas datos bancarios sensibles.</div></section>
+</div>
+<nav class="nav"><button class="active" data-page="inicio" onclick="showPage('inicio')"><b>⌂</b>Inicio</button><button data-page="movimientos" onclick="showPage('movimientos')"><b>⇄</b>Movimientos</button><button data-page="cuentas" onclick="showPage('cuentas')"><b>▣</b>Cuentas</button><button data-page="analisis" onclick="showPage('analisis')"><b>◔</b>Análisis</button><button data-page="ajustes" onclick="showPage('ajustes')"><b>⚙</b>Ajustes</button></nav>
+<div class="modalback" id="modalback" onclick="if(event.target===this)closeModal()"><div class="modal"><h2 id="modalTitle">Añadir movimiento</h2><form id="moveform">
+<input type="hidden" id="editid"><div class="row"><div><label>Tipo</label><select id="type"><option value="gasto">Gasto</option><option value="ingreso">Ingreso</option></select></div><div><label>Importe (€)</label><input id="amount" type="number" min="0.01" step="0.01" required placeholder="0,00"></div></div>
+<label>Descripción</label><input id="description" maxlength="70" placeholder="Ej. Compra supermercado" required>
+<div class="row"><div><label>Categoría</label><select id="category"></select></div><div><label>Fecha</label><input id="date" type="date" required></div></div>
+<label>Cuenta</label><select id="account"></select>
+<label>Foto o justificante (opcional)</label><div class="photo"><label for="photo" style="margin:0;color:var(--text);flex:1">📷 Elegir foto o imagen de la galería</label><input id="photo" type="file" accept="image/*"><img id="preview" class="preview" alt="Vista previa"></div><div class="hint">Puedes adjuntar una foto del ticket o justificante. La imagen se reduce para ocupar menos espacio. La cámara o galería dependerá de las opciones que ofrezca tu iPhone.</div>
+<button class="primary" type="submit">Guardar movimiento</button><button class="secondary" type="button" onclick="closeModal()">Cancelar</button></form></div></div>
+<script>
+const KEY='gf20_prototype_v1';
+const cats={gasto:['Vivienda','Coche y transporte','Alimentación','Suministros','Internet y teléfono','Salud y deporte','Ocio','Compras','Viajes','Otros gastos'],ingreso:['Nómina','Pagas extraordinarias','Trabajos adicionales','Devoluciones','Otros ingresos']};
+let state=load();
+function load(){try{return JSON.parse(localStorage.getItem(KEY))||{moves:[],accounts:[{id:'cash',name:'Efectivo',balance:0}],savings:0,investments:0}}catch(e){return {moves:[],accounts:[{id:'cash',name:'Efectivo',balance:0}],savings:0,investments:0}}}
+function save(){localStorage.setItem(KEY,JSON.stringify(state));render()}
+const euro=n=>Number(n||0).toLocaleString('es-ES',{style:'currency',currency:'EUR'});
+const today=new Date();document.getElementById('today').textContent=today.toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+function showPage(p){document.querySelectorAll('.page').forEach(x=>x.classList.toggle('active',x.id===p));document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===p));}
+function fillOptions(){let t=document.getElementById('type').value;document.getElementById('category').innerHTML=cats[t].map(x=>`<option>${x}</option>`).join('');document.getElementById('account').innerHTML=state.accounts.map(x=>`<option value="${x.id}">${esc(x.name)}</option>`).join('')}
+document.getElementById('type').addEventListener('change',fillOptions);
+function openMovement(type,id){let m=id?state.moves.find(x=>x.id===id):null;document.getElementById('moveform').reset();document.getElementById('editid').value=m?.id||'';document.getElementById('type').value=m?.type||type;fillOptions();document.getElementById('amount').value=m?.amount||'';document.getElementById('description').value=m?.description||'';document.getElementById('category').value=m?.category||cats[type][0];document.getElementById('date').value=m?.date||today.toISOString().slice(0,10);document.getElementById('account').value=m?.account||state.accounts[0]?.id||'';document.getElementById('preview').style.display=m?.photo?'block':'none';document.getElementById('preview').src=m?.photo||'';document.getElementById('modalTitle').textContent=m?'Editar movimiento':'Añadir '+type;document.getElementById('modalback').classList.add('show')}
+function closeModal(){document.getElementById('modalback').classList.remove('show')}
+document.getElementById('photo').addEventListener('change',async e=>{let f=e.target.files[0];if(!f)return;try{document.getElementById('preview').src=await compress(f);document.getElementById('preview').style.display='block'}catch(err){alert('No se pudo cargar la imagen. Prueba con otra foto.')}});
+function compress(file){return new Promise((resolve,reject)=>{let r=new FileReader();r.onload=()=>{let im=new Image();im.onload=()=>{let c=document.createElement('canvas'),scale=Math.min(1,1000/Math.max(im.width,im.height));c.width=Math.round(im.width*scale);c.height=Math.round(im.height*scale);c.getContext('2d').drawImage(im,0,0,c.width,c.height);resolve(c.toDataURL('image/jpeg',.72))};im.onerror=reject;im.src=r.result};r.onerror=reject;r.readAsDataURL(file)})}
+document.getElementById('moveform').addEventListener('submit',async e=>{e.preventDefault();let id=document.getElementById('editid').value,old=id?state.moves.find(x=>x.id===id):null,photo=document.getElementById('preview').src||'';if(photo&&!photo.startsWith('data:image/'))photo='';let f=document.getElementById('photo').files[0];if(f)photo=await compress(f);let m={id:id||crypto.randomUUID(),type:document.getElementById('type').value,amount:Number(document.getElementById('amount').value),description:document.getElementById('description').value.trim(),category:document.getElementById('category').value,date:document.getElementById('date').value,account:document.getElementById('account').value,photo};if(old)state.moves=state.moves.map(x=>x.id===id?m:x);else state.moves.unshift(m);try{save();closeModal()}catch(err){alert('No se pudo guardar. Puede que el almacenamiento del navegador esté lleno. Exporta una copia y prueba con una imagen más pequeña.')}});
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function moveHTML(m){return `<div class="movement"><div class="bubble">${m.type==='ingreso'?'↗':'↘'}</div><div class="moveinfo"><strong>${esc(m.description)}</strong><small>${esc(m.category)} · ${new Date(m.date+'T12:00:00').toLocaleDateString('es-ES')}${m.photo?' · 📷':''}</small></div><div class="amount ${m.type==='ingreso'?'green':'red'}">${m.type==='ingreso'?'+':'−'}${euro(m.amount)}</div><button class="movebtn" onclick="openMovement('${m.type}','${m.id}')" aria-label="Editar">✎</button><button class="movebtn" onclick="delMove('${m.id}')" aria-label="Eliminar">⋯</button></div>`}
+function delMove(id){if(confirm('¿Quieres eliminar este movimiento?')){state.moves=state.moves.filter(x=>x.id!==id);save()}}
+function render(){let now=new Date(),month=now.getMonth(),year=now.getFullYear(),ms=state.moves.filter(x=>{let d=new Date(x.date+'T12:00:00');return d.getMonth()===month&&d.getFullYear()===year}),inc=ms.filter(x=>x.type==='ingreso').reduce((a,x)=>a+x.amount,0),exp=ms.filter(x=>x.type==='gasto').reduce((a,x)=>a+x.amount,0),balances=state.accounts.map(a=>({ ...a,calc:state.moves.filter(m=>m.account===a.id).reduce((s,m)=>s+(m.type==='ingreso'?m.amount:-m.amount),0)})),available=balances.reduce((s,a)=>s+a.calc,0);document.getElementById('income').textContent='+'+euro(inc);document.getElementById('expenses').textContent='−'+euro(exp);document.getElementById('aincome').textContent=euro(inc);document.getElementById('aexpenses').textContent=euro(exp);document.getElementById('available').textContent=euro(available);document.getElementById('savings').textContent=euro(state.savings);document.getElementById('investments').textContent=euro(state.investments);document.getElementById('count').textContent=state.moves.length+' movimientos';let html=state.moves.length?state.moves.map(moveHTML).join(''):'<div class="empty">Todavía no has registrado movimientos.</div>';document.getElementById('allmoves').innerHTML=html;document.getElementById('recent').innerHTML=state.moves.length?state.moves.slice(0,4).map(moveHTML).join(''):'<div class="empty">Tus movimientos aparecerán aquí cuando registres el primero.</div>';document.getElementById('accounts').innerHTML=balances.map(a=>`<div class="movement"><div class="bubble">▣</div><div class="moveinfo"><strong>${esc(a.name)}</strong><small>Saldo calculado a partir de los movimientos</small></div><div class="amount">${euro(a.calc)}</div></div>`).join('')||'<div class="empty">Añade tu primera cuenta bancaria.</div>';fillOptions()}
+function addAccount(){let name=prompt('Nombre de la cuenta (por ejemplo, Banco principal):');if(name&&name.trim()){state.accounts.push({id:crypto.randomUUID(),name:name.trim()});save()}}
+function backup(){let blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='gestion-financiera-copia.json';a.click();URL.revokeObjectURL(url)}
+function restore(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let d=JSON.parse(r.result);if(!Array.isArray(d.moves)||!Array.isArray(d.accounts))throw 0;if(confirm('Esto sustituirá los datos actuales de este prototipo. ¿Continuar?')){state=d;save();alert('Copia restaurada.')}}catch(err){alert('El archivo no parece una copia válida de Gestión Financiera 2.0.')}};r.readAsText(f)}
+render();
+</script>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js").catch(() => {});
+  });
+}
+</script>
+</body></html>
